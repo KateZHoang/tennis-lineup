@@ -10,7 +10,7 @@ scope = ["https://spreadsheets.google.com/feeds",
          "https://www.googleapis.com/auth/drive"
 ]
 
-creds = Credentials.from_service_account_file("/Users/ItsKate/Downloads/googlesheetapi.json", scopes=scope)
+creds = Credentials.from_service_account_file("service-account-key.json", scopes=scope)
 client = gspread.authorize(creds)
 
 # Access the Google Sheet tabs

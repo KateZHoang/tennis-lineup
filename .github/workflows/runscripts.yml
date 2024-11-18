@@ -39,5 +39,5 @@ jobs:
     # Step 5: Run First Script
     - name: Run UpdateGSheet.py
       env:
-        GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/service-account-key.json
+        MY_JSON_SECRET: ${{ secrets.MY_JSON_SECRET }}  # Reference the secret
       run: python UpdateGSheet.py

@@ -1,24 +1,29 @@
 import os
 import json 
 import gspread
+import time
 import MatchLineupsCreation
 import GetPlayerList
 from google.oauth2.service_account import Credentials
 
-# Set up the scope and authenticate
+# Load service account key from environment variable
+json_secret = os.getenv("SERVICE_ACCOUNT_KEY")
+
+if json_secret:
+    # Parse the JSON string
+    secret = json.loads(json_secret)
+    print("Loaded JSON data:", secret)
+else:
+     raise ValueError("SERVICE_ACCOUNT_KEY environment variable is not set.")
+
+# Authenticate with Google API using the JSON secret
 scope = ["https://spreadsheets.google.com/feeds", 
          "https://www.googleapis.com/auth/spreadsheets",
          "https://www.googleapis.com/auth/drive.file", 
          "https://www.googleapis.com/auth/drive"
 ]
 
-# Load service account key from environment variable
-
-service_account_info = os.getenv("SERVICE_ACCOUNT_KEY")
-if not service_account_info:
-    raise ValueError("SERVICE_ACCOUNT_KEY environment variable is not set.")
-
-creds = Credentials.from_service_account_info(json.loads(service_account_info), scopes=scope)
+creds = Credentials.from_service_account_info(secret, scopes=scope)
 client = gspread.authorize(creds)
 
 # Access the Google Sheet tabs
@@ -40,7 +45,8 @@ def reformat_lineup(lineups):
 # Fill in players to Google Sheet
 def write_to_gsheet(data):
     for cell, value in data.items():
-        round_robin_sheet.update(values = [[value]], range_name = cell) 
+        round_robin_sheet.update(values = [[value]], range_name = cell)
+        time.sleep(1) 
 
 # Get player data
 players = GetPlayerList.get_players(player_sheet)

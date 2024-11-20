@@ -35,7 +35,7 @@ jobs:
         echo "$SERVICE_ACCOUNT_KEY" > secret.json
         python -c "import json; f=open('secret.json'); data=json.load(f); print(data)"
       env:
-        MY_JSON_SECRET: ${{ secrets.SERVICE_ACCOUNT_KEY }}  # Reference the secret
+        SERVICE_ACCOUNT_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY }}  # Reference the secret
 
     # Step 4: Run UpdateGSheet Script
     - name: Run UpdateGSheet.py

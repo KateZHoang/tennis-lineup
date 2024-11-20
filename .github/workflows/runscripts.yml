@@ -34,3 +34,7 @@ jobs:
       env:
         MY_JSON_SECRET: ${{ secrets.MY_JSON_SECRET }}  # Reference the secret
       run: python UpdateGSheet.py
+
+    # Step 5: Debug environment error
+    - name: Debug Environment
+      run: env

@@ -7,14 +7,14 @@ import GetPlayerList
 from google.oauth2.service_account import Credentials
 
 # Load service account key from environment variable
-json_secret = os.getenv("SERVICE_ACCOUNT_KEY")
+secret_key = os.getenv("SERVICE_ACCOUNT_KEY")
 
-if json_secret:
-    # Parse the JSON string
-    secret = json.loads(json_secret)
-    print("Loaded JSON data:", secret)
-else:
+if not secret_key:
      raise ValueError("SERVICE_ACCOUNT_KEY environment variable is not set.")
+
+# Parse the JSON string
+parsed_json = json.loads(secret_key)
+print("Loaded JSON data:", parsed_json)
 
 # Authenticate with Google API using the JSON secret
 scope = ["https://spreadsheets.google.com/feeds", 
@@ -23,7 +23,7 @@ scope = ["https://spreadsheets.google.com/feeds",
          "https://www.googleapis.com/auth/drive"
 ]
 
-creds = Credentials.from_service_account_info(secret, scopes=scope)
+creds = Credentials.from_service_account_info(parsed_json, scopes=scope)
 client = gspread.authorize(creds)
 
 # Access the Google Sheet tabs

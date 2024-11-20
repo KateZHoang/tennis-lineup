@@ -32,8 +32,9 @@ jobs:
     # Step 4: Run UpdateGSheet Script
     - name: Run UpdateGSheet.py
       env:
-        MY_JSON_SECRET: ${{ secrets.MY_JSON_SECRET }}  # Reference the secret
-      run: python UpdateGSheet.py
+        MY_JSON_SECRET: ${{ secrets.SERVICE_ACCOUNT_KEY }}  # Reference the secret
+      run: 
+        python UpdateGSheet.py
 
     # Step 5: Debug environment error
     - name: Debug Environment

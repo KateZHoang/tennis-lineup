@@ -1,3 +1,5 @@
+import os
+import json 
 import gspread
 import MatchLineupsCreation
 import GetPlayerList
@@ -10,12 +12,19 @@ scope = ["https://spreadsheets.google.com/feeds",
          "https://www.googleapis.com/auth/drive"
 ]
 
-creds = Credentials.from_service_account_file("service-account-key.json", scopes=scope)
+# Load service account key from environment variable
+
+service_account_info = os.getenv("SERVICE_ACCOUNT_KEY")
+if not service_account_info:
+    raise ValueError("SERVICE_ACCOUNT_KEY environment variable is not set.")
+
+creds = Credentials.from_service_account_info(json.loads(service_account_info), scopes=scope)
 client = gspread.authorize(creds)
 
 # Access the Google Sheet tabs
 round_robin_sheet = client.open_by_key("1Z3jSqZv4cikdgrajeFmP5Dd1O9NOt_f1WWFkUCCkMOo").worksheet("Copy of RR")  
 player_sheet = client.open_by_key("1Z3jSqZv4cikdgrajeFmP5Dd1O9NOt_f1WWFkUCCkMOo").worksheet("Test")  
+
 
 # Re-format lineup data
 def reformat_lineup(lineups):

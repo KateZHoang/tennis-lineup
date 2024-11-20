@@ -38,4 +38,12 @@ jobs:
 
     # Step 5: Debug environment error
     - name: Debug Environment
-      run: env
+      env:
+        MY_JSON_SECRET: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+      run: |
+        if [ -z "$MY_JSON_SECRET" ]; then
+          echo "MY_JSON_SECRET is not set!"
+          exit 1
+        else
+          echo "MY_JSON_SECRET is set!"
+        fi

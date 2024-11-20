@@ -29,21 +29,17 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
+    # Step 4: Parse JSON Secret
+    - name: Parse JSON Seret
+      run: |
+        echo "$SERVICE_ACCOUNT_KEY" > secret.json
+        python -c "import json; f=open('secret.json'); data=json.load(f); print(data)"
+      env:
+        MY_JSON_SECRET: ${{ secrets.SERVICE_ACCOUNT_KEY }}  # Reference the secret
+
     # Step 4: Run UpdateGSheet Script
     - name: Run UpdateGSheet.py
       env:
-        MY_JSON_SECRET: ${{ secrets.SERVICE_ACCOUNT_KEY }}  # Reference the secret
+        MY_JSON_SECRET: ${{ secrets.SERVICE_ACCOUNT_KEY }}
       run: 
         python UpdateGSheet.py
-
-    # Step 5: Debug environment error
-    - name: Debug Environment
-      env:
-        MY_JSON_SECRET: ${{ secrets.SERVICE_ACCOUNT_KEY }}
-      run: |
-        if [ -z "$MY_JSON_SECRET" ]; then
-          echo "MY_JSON_SECRET is not set!"
-          exit 1
-        else
-          echo "MY_JSON_SECRET is set!"
-        fi

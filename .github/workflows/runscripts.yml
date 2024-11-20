@@ -29,14 +29,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    # Step 4: Google credentials
-    - name: Decode and save Google credentials
-      env:
-        GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-      run: |
-        echo "$GOOGLE_CREDENTIALS" | base64 --decode > service-account-key.json
-
-    # Step 5: Run First Script
+    # Step 4: Run UpdateGSheet Script
     - name: Run UpdateGSheet.py
       env:
         MY_JSON_SECRET: ${{ secrets.MY_JSON_SECRET }}  # Reference the secret

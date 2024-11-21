@@ -30,7 +30,7 @@ jobs:
         pip install -r requirements.txt
 
     # Step 4: Parse JSON Secret
-    - name: Parse JSON Seret
+    - name: Parse JSON Secret
       run: |
         echo "$SERVICE_ACCOUNT_KEY" > secret.json
         python -c "import json; f=open('secret.json'); data=json.load(f); print(data)"

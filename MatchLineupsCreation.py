@@ -43,7 +43,7 @@ def generate_lineups(players, sets=3):
         
         matches = []
 
-        for i in range(0, len(pairs), 2)
+        for i in range(0, len(pairs), 2):
             team1, team2 = pairs[i], pairs[i + 1]
 
             # Check if this pairing or matchup has already occurred

@@ -49,7 +49,7 @@ def write_to_gsheet(data):
 
 # Get player data
 players = GetPlayerList.get_players(player_sheet)
-print("The length of players are: {}".format(len(players)))
+print("The length of players are: {}. from original list.".format(len(players)))
 
 # Get lineup
 lineups = MatchLineupsCreation.generate_lineups(players, sets = 3)

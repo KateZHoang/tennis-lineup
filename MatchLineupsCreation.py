@@ -37,6 +37,7 @@ def pair_up(short_list, long_list):
     pairs.sort(key=lambda pair: pair[0].level + pair[1].level, reverse=True)
 
     return pairs
+    print("Started pairs are {}".format(pairs))
 
 # Generate matches with varied partners and opponents
 def generate_lineups(players, sets=3):
@@ -71,6 +72,7 @@ def generate_lineups(players, sets=3):
             
             matches.append(temp_match)
             previous_matches.add(temp_match)
+            print("remaining pairs are: {}".format(pairs))
 
         # Add matches to the set
         lineup_set.append(matches)

@@ -72,6 +72,9 @@ def generate_lineups(players, sets=3):
             
             matches.append(temp_match)
             previous_matches.add(temp_match)
+
+            pairs.remove(pairs[i])
+            pairs.remove(pairs[i+1])
             print("remaining pairs are: {}".format(pairs))
 
         # Add matches to the set

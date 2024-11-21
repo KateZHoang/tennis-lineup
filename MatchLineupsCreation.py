@@ -8,8 +8,8 @@ def pair_up(short_list, long_list):
     previous_pairings = set()
     
     # Make a copy of short and long list
-    copy_short = short_list
-    copy_long = long_list
+    copy_short = short_list[:]
+    copy_long = long_list[:]
 
     # Generate pairs starting with the short list
     pairs = []

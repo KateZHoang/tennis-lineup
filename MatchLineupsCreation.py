@@ -49,9 +49,6 @@ def generate_lineups(players, sets=3):
     short = min(males, females, key=len)
     long = max(males, females, key=len)
 
-    # Track previous matchups to avoid repeats
-    previous_matches = set()
-
     # Ensure each player has different partners in each set and balanced match levels
     lineups = []
     for s in range(sets):
@@ -61,21 +58,9 @@ def generate_lineups(players, sets=3):
         pairs = pair_up(short, long)
         
         matches = []
-
-        for i in range(0, len(pairs), 2) and len(pairs) >= 2:
-            temp_match = tuple(sorted([pairs[i], pairs[i + 1]]))
-
-            # Only add the matchup if not already exist
-            while temp_match in previous_matches:
-                continue
-                # Recreate the pairs
-            
-            matches.append(temp_match)
-            previous_matches.add(temp_match)
-
-            pairs.remove(pairs[i])
-            pairs.remove(pairs[i])
-            print("remaining pairs are: {}".format(pairs))
+        for i in range(0, len(pairs), 2):
+            a_match = tuple(sorted([pairs[i], pairs[i + 1]]))
+            matches.append(a_match)
 
         # Add matches to the set
         lineup_set.append(matches)

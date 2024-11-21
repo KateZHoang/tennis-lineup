@@ -7,12 +7,16 @@ def pair_up(short_list, long_list):
     # Track previous pairings to avoid repeats
     previous_pairings = set()
     
+    # Make a copy of short and long list
+    copy_short = short_list
+    long_list = long_list
+
     # Generate pairs starting with the short list
     pairs = []
 
-    while short_list and long_list:
-        selected_player_from_short = random.choice(short_list)
-        selected_player_from_long = random.choice(long_list)
+    while copy_short and copy_long:
+        selected_player_from_short = random.choice(copy_short)
+        selected_player_from_long = random.choice(copy_long)
         
         # Create the pair as a sorted tuple
         temp_pair = tuple(sorted((selected_player_from_short, selected_player_from_long)))
@@ -25,11 +29,11 @@ def pair_up(short_list, long_list):
         previous_pairings.add(temp_pair)
         
         # Remove the players from their respective lists
-        short_list.remove(selected_player_from_short)
-        long_list.remove(selected_player_from_long)
+        copy_short.remove(selected_player_from_short)
+        copy_long.remove(selected_player_from_long)
 
     # Generate pairs with the remaining from the long list
-    if len(long_list) > 1:
+    if len(copy_long) > 1:
         mid = len(long_list) // 2
         pairs += pair_up(long_list[:mid],long_list[mid:])
 

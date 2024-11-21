@@ -11,7 +11,7 @@ class Player:
     def __repr__(self):
         return f"Player({self.name}, {self.gender}, {self.level})"
 
-    def __lt__(self):
+    def __lt__(self, other):
         # Compare players primarily by name, alphabetically
         return self.name < other.name
 '''

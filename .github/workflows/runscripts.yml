@@ -40,6 +40,6 @@ jobs:
     # Step 4: Run UpdateGSheet Script
     - name: Run UpdateGSheet.py
       env:
-        MY_JSON_SECRET: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+        SERVICE_ACCOUNT_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY }}
       run: 
         python UpdateGSheet.py

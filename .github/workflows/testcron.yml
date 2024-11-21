@@ -1,0 +1,7 @@
+name: Run Tennis Lineup Scripts
+
+on:
+  schedule:
+    # Schedule: 
+    - cron: "35 23 * * 3"
+  workflow_dispatch: # Allows manual triggering

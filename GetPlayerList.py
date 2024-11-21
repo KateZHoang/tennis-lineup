@@ -10,6 +10,10 @@ class Player:
     
     def __repr__(self):
         return f"Player({self.name}, {self.gender}, {self.level})"
+
+    def __lt__(self):
+        # Compare players primarily by name, alphabetically
+        return self.name < other.name
 '''
 # Set up the scope and authenticate
 scope = ["https://spreadsheets.google.com/feeds", 

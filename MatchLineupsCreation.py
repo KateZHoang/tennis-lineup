@@ -47,7 +47,11 @@ def generate_lineups(players, sets=3):
             team1, team2 = pairs[i], pairs[i + 1]
 
             # Check if this pairing or matchup has already occurred
-            while tuple(sorted([team1[0].name, team1[1].name])) in previous_pairings or tuple(sorted([team2[0].name, team2[1].name])) in previous_pairings or (tuple(sorted([team1, team2]))) in previous_matchups:
+            while (
+                tuple(sorted([team1[0], team1[1]])) in previous_pairings 
+                or tuple(sorted([team2[0], team2[1]])) in previous_pairings 
+                or (tuple(sorted([team1, team2]))) in previous_matchups
+            ):
                 
                 # If repeat, reshuffle players and create new pairings
                 random.shuffle(short)
@@ -58,8 +62,8 @@ def generate_lineups(players, sets=3):
                 team1, team2 = pairs[i], pairs[i + 1]
             
             # Add valid pairings and matchups to track
-            previous_pairings.add(tuple(sorted([team1[0].name, team1[1].name])))
-            previous_pairings.add(tuple(sorted([team2[0].name, team2[1].name])))
+            previous_pairings.add(tuple(sorted([team1[0], team1[1]])))
+            previous_pairings.add(tuple(sorted([team2[0], team2[1]])))
             previous_matchups.add(tuple(sorted([team1, team2])))
 
             matches.append((team1, team2))

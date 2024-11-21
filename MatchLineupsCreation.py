@@ -9,7 +9,7 @@ def pair_up(short_list, long_list):
     
     # Make a copy of short and long list
     copy_short = short_list
-    long_list = long_list
+    copy_long = long_list
 
     # Generate pairs starting with the short list
     pairs = []
@@ -34,8 +34,8 @@ def pair_up(short_list, long_list):
 
     # Generate pairs with the remaining from the long list
     if len(copy_long) > 1:
-        mid = len(long_list) // 2
-        pairs += pair_up(long_list[:mid],long_list[mid:])
+        mid = len(copy_long) // 2
+        pairs += pair_up(copy_long[:mid],copy_long[mid:])
 
     # Ensure teams have close USTA levels by pairing highest level pairs against each other
     pairs.sort(key=lambda pair: pair[0].level + pair[1].level, reverse=True)

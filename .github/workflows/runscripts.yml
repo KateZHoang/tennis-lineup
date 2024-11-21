@@ -2,7 +2,7 @@ name: Run Tennis Lineup Scripts
 
 on:
   schedule:
-    # Schedule: Run every Wed at 12PM
+    # Schedule: Run every Wednesday at 12 PM PDT (7:00 PM UTC)
     - cron: "0 19 * * 3"
   workflow_dispatch: # Allows manual triggering
 
@@ -33,5 +33,5 @@ jobs:
     - name: Run UpdateGSheet.py
       env:
         SERVICE_ACCOUNT_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY }}
-      run: 
+      run: |
         python UpdateGSheet.py

@@ -14,7 +14,6 @@ if not secret_key:
 
 # Parse the JSON string
 parsed_json = json.loads(secret_key)
-print("Loaded JSON data:", parsed_json)
 
 # Authenticate with Google API using the JSON secret
 scope = ["https://spreadsheets.google.com/feeds", 

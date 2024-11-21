@@ -2,41 +2,59 @@ import random
 import GetPlayerList
 from itertools import combinations
 
-# Generate pairs. Pair each female with a male, and pair up the rest
+# Generate pairs avoiding repeats. Shuffle and pair each female with a male, and pair up the rest
 def pair_up(short_list, long_list):
+    # Track previous pairings to avoid repeats
+    previous_pairings = set()
+    
+    # Generate pairs starting with the short list
     pairs = []
-    pairs += [(short_list[i], long_list[i]) for i in range(0, len(short_list), 2)]
+
+    while short_list and long_list:
+        selected_player_from_short = random.choice(short_list)
+        selected_player_from_long = random.choice(long_list)
         
-    remaining = long_list[len(short_list):]
-    pairs += [(long_list[i], long_list[i+1]) for i in range(0, len(remaining), 2)]
+        # Create the pair as a sorted tuple
+        temp_pair = tuple(sorted((selected_player_from_short, selected_player_from_long)))
+
+        # Only add the pairs if not already exist
+        if temp_pair in previous_pairings:
+            continue
+
+        pairs.append(temp_pair)
+        previous_pairings.add(temp_pair)
+        
+        # Remove the players from their respective lists
+        short_list.remove(selected_player_from_short)
+        long_list.remove(selected_player_from_long)
+
+    # Generate pairs with the remaining from the long list
+    if len(long_list) > 1:
+        mid = len(long_list) // 2
+        pairs += pair_up(long_list[:mid],long_list[mid:])
 
     # Ensure teams have close USTA levels by pairing highest level pairs against each other
     pairs.sort(key=lambda pair: pair[0].level + pair[1].level, reverse=True)
 
     return pairs
 
-# Create a function to generate pairs with varied partners and balanced matchups
+# Generate matches with varied partners and opponents
 def generate_lineups(players, sets=3):
     # Split players by gender
     males = [p for p in players if p.gender == 'Male']
     females = [p for p in players if p.gender == 'Female']
 
-    # Track previous pairings and matchups to avoid repeats
-    previous_pairings = set()
-    previous_matchups = set()
+    # Decide on the short and the long list
+    short = min(males, females, key=len)
+    long = max(males, females, key=len)
 
-    # Ensure each player has a new partner in each set and balanced match levels
+    # Track previous matchups to avoid repeats
+    previous_matches = set()
+
+    # Ensure each player has different partners in each set and balanced match levels
     lineups = []
     for s in range(sets):
         lineup_set = []
-
-        # Decide on the short and the long list
-        short = min(males, females, key=len)
-        long = max(males, females, key=len)
-
-        # Shuffle players to vary pairings each matchup
-        random.shuffle(short)
-        random.shuffle(long)
 
         # Pair up the players
         pairs = pair_up(short, long)
@@ -44,29 +62,15 @@ def generate_lineups(players, sets=3):
         matches = []
 
         for i in range(0, len(pairs), 2):
-            team1, team2 = pairs[i], pairs[i + 1]
+            temp_match = tuple(sorted(pairs[i], pairs[i + 1]))
 
-            # Check if this pairing or matchup has already occurred
-            while (
-                tuple(sorted([team1[0], team1[1]])) in previous_pairings 
-                or tuple(sorted([team2[0], team2[1]])) in previous_pairings 
-                or (tuple(sorted([team1, team2]))) in previous_matchups
-            ):
-                
-                # If repeat, reshuffle players and create new pairings
-                random.shuffle(short)
-                random.shuffle(long)
-
+            # Only add the matchup if not already exist
+            while temp_match in previous_matches:
+                continue
                 # Recreate the pairs
-                pairs = pair_up(short, long)
-                team1, team2 = pairs[i], pairs[i + 1]
             
-            # Add valid pairings and matchups to track
-            previous_pairings.add(tuple(sorted([team1[0], team1[1]])))
-            previous_pairings.add(tuple(sorted([team2[0], team2[1]])))
-            previous_matchups.add(tuple(sorted([team1, team2])))
-
-            matches.append((team1, team2))
+            matches.append(temp_match)
+            previous_matches.add(temp_match)
 
         # Add matches to the set
         lineup_set.append(matches)
@@ -75,7 +79,7 @@ def generate_lineups(players, sets=3):
     return lineups
 
 # Print the generated lineup sets (with names, gender, and level)
-# def print_lineups(lineups):
+def print_lineups(lineups):
     for set_num, lineup_set in enumerate(lineups, 1):
         print(f"\nSet {set_num}:")
         for match_num, (team1, team2) in enumerate(lineup_set[0], 1):

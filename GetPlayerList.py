@@ -14,20 +14,6 @@ class Player:
     def __lt__(self, other):
         # Compare players primarily by name, alphabetically
         return self.name < other.name
-'''
-# Set up the scope and authenticate
-scope = ["https://spreadsheets.google.com/feeds", 
-         "https://www.googleapis.com/auth/spreadsheets",
-         "https://www.googleapis.com/auth/drive.file", 
-         "https://www.googleapis.com/auth/drive"
-]
-
-creds = Credentials.from_service_account_file("service-account-key.json", scopes=scope)
-client = gspread.authorize(creds)
-
-# Access your Google Sheet
-sheet = client.open_by_key("1Z3jSqZv4cikdgrajeFmP5Dd1O9NOt_f1WWFkUCCkMOo").worksheet("Test")  # or specify the sheet by name
-'''
 
 # Create player list from Google Sheet
 def get_players(sheet):

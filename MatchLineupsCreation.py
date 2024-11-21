@@ -62,7 +62,7 @@ def generate_lineups(players, sets=3):
         
         matches = []
 
-        for i in range(0, len(pairs), 2):
+        for i in range(0, len(pairs)):
             temp_match = tuple(sorted([pairs[i], pairs[i + 1]]))
 
             # Only add the matchup if not already exist

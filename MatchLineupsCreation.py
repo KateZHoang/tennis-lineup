@@ -2,11 +2,11 @@ import random
 import GetPlayerList
 from itertools import combinations
 
+#Track previous pairings to avoid repeats
+previous_pairings = set()
+
 # Generate pairs avoiding repeats. Shuffle and pair each female with a male, and pair up the rest
 def pair_up(short_list, long_list):
-    # Track previous pairings to avoid repeats
-    previous_pairings = set()
-    
     # Make a copy of short and long list
     copy_short = short_list[:]
     copy_long = long_list[:]

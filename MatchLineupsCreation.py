@@ -38,10 +38,23 @@ def pair_up(short_list, long_list):
         pairs += pair_up(copy_long[:mid],copy_long[mid:])
 
     # Ensure teams have close USTA levels by pairing highest level pairs against each other
-    pairs.sort(key=lambda pair: pair[0].level + pair[1].level, reverse=True)
+    pairs.sort(key=sorting_key, reverse=True)
 
     return pairs
     print("Started pairs are {}".format(pairs))
+
+# Define sorting function
+def sorting_key(pair):
+    # Rank the pair based on combined level
+    combined_level = pair[0].level + pair[1].level
+
+    # Rank the pair based on gender
+    priority = 0
+    genders = tuple([pair[0].gender, pair[1].gender])
+    if genders == ("female", "female") or genders == ("male", "male"):
+        priority = 1
+
+    return (combined_level, priority)
 
 # Generate matches with varied partners and opponents
 def generate_lineups(players, sets=3):

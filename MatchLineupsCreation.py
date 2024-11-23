@@ -54,7 +54,7 @@ def sorting_key(pair):
     if genders == ("female", "female") or genders == ("male", "male"):
         priority = 1
 
-    return (combined_level, priority)
+    return (priority, combined_level)
 
 # Generate matches with varied partners and opponents
 def generate_lineups(players, sets=3):

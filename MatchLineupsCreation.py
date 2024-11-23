@@ -45,14 +45,14 @@ def pair_up(short_list, long_list):
 
 # Define sorting function
 def sorting_key(pair):
-    # Rank the pair based on combined level
-    combined_level = pair[0].level + pair[1].level
-
     # Rank the pair based on gender
-    priority = 0
+    priority = 1
     genders = tuple([pair[0].gender, pair[1].gender])
     if genders == ("female", "female") or genders == ("male", "male"):
-        priority = 1
+        priority = 0
+    
+    # Rank the pair based on combined level
+    combined_level = pair[0].level + pair[1].level
 
     return (priority, combined_level)
 

@@ -41,7 +41,6 @@ def pair_up(short_list, long_list):
     pairs.sort(key=sorting_key, reverse=True)
 
     return pairs
-    print("Started pairs are {}".format(pairs))
 
 # Define sorting function
 def sorting_key(pair):
@@ -74,7 +73,7 @@ def generate_lineups(players, sets=3):
 
         # Pair up the players
         pairs = pair_up(short, long)
-        print("The length of pairs after pairing up are: {}. It should half of the starting players.".format(len(pairs)))
+        print("Pairs are sorting are: {}".format())
         
         matches = []
         for i in range(0, len(pairs), 2):

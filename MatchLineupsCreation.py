@@ -47,14 +47,19 @@ def sorting_key(pair):
     # Rank the pair based on gender
     genders = tuple([pair[0].gender, pair[1].gender])
     if "female" in genders and "male" in genders:
-        priority = 1 # Assign higher priorty as 1 to keep it consistent with the levels. The higher number is higher priority
+        priority = 2 # Assign higher priorty as 1 to keep it consistent with the levels. The higher number is higher priority
     else:
-        priority = 0
+        priority = 1
     
     # Rank the pair based on combined level
     combined_level = pair[0].level + pair[1].level
 
+    #Attempt to return 1 value for the function instead of 2.
+    return (priority * combined_level)
+
+    '''
     return (priority, combined_level)
+    '''
 
 # Generate matches with varied partners and opponents
 def generate_lineups(players, sets=3):

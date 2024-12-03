@@ -73,7 +73,7 @@ def generate_lineups(players, sets=3):
 
         # Pair up the players
         pairs = pair_up(short, long)
-        print("Pairs are sorting are: {}".format())
+        print("Pairs are sorting are: {}".format(pairs))
         
         matches = []
         for i in range(0, len(pairs), 2):

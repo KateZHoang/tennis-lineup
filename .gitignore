@@ -1,3 +1,4 @@
 service-account-key.json
 encoded-json.txt
 .env
+.DS_Store

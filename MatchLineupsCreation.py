@@ -7,17 +7,6 @@ from google.oauth2.service_account import Credentials
 import gspread
 import GetPlayerList
 
-# Authenticate google 
-parsed_json, scope = AuthenticateGoogle.authenticate_google()
-creds = Credentials.from_service_account_info(parsed_json, scopes=scope)
-client = gspread.authorize(creds)
-
-# Access the Google Sheet tabs
-player_sheet = client.open_by_key("1Z3jSqZv4cikdgrajeFmP5Dd1O9NOt_f1WWFkUCCkMOo").worksheet("Test")  
-
-# Get player data
-players = GetPlayerList.get_players(player_sheet)
-
 # -- Utility Functions --
 
 # Sort pairs by gender and their combined levels
@@ -147,6 +136,19 @@ def print_lineups_namesonly(lineups):
 
 # -- Entry Point --
 if __name__ == "__main__":
+
+    # Authenticate google 
+    parsed_json, scope = AuthenticateGoogle.authenticate_google()
+    creds = Credentials.from_service_account_info(parsed_json, scopes=scope)
+    client = gspread.authorize(creds)
+
+    # Access the Google Sheet tabs
+    player_sheet = client.open_by_key("1Z3jSqZv4cikdgrajeFmP5Dd1O9NOt_f1WWFkUCCkMOo").worksheet("Test")  
+
+    # Get player data
+    players = GetPlayerList.get_players(player_sheet)
+
+    # Generate lineup and print them out formatted
     results = generate_lineups(players, sets = 3)
     results_formatted = print_lineups_namesonly(results)
     print(results_formatted)

@@ -1,12 +1,52 @@
+import os
+import time
 import random
-import GetPlayerList
 from itertools import combinations
+import AuthenticateGoogle
+from google.oauth2.service_account import Credentials
+import gspread
+import GetPlayerList
 
-#Track previous pairings to avoid repeats
-previous_pairings = set()
+# Authenticate google 
+parsed_json, scope = AuthenticateGoogle.authenticate_google()
+creds = Credentials.from_service_account_info(parsed_json, scopes=scope)
+client = gspread.authorize(creds)
+
+# Access the Google Sheet tabs
+player_sheet = client.open_by_key("1Z3jSqZv4cikdgrajeFmP5Dd1O9NOt_f1WWFkUCCkMOo").worksheet("Test")  
+
+# Get player data
+players = GetPlayerList.get_players(player_sheet)
+
+# -- Utility Functions --
+
+# Sort pairs by gender and their combined levels
+def sorting_key(pair):
+    # Rank the pair based on gender
+    genders = tuple([pair[0].gender, pair[1].gender])
+    if "female" in genders and "male" in genders:
+        priority = 2 # Assign a high xxx.
+    else:
+        priority = 1
+    
+    # Rank the pair based on combined level
+    combined_level = pair[0].level + pair[1].level
+
+    #Attempt to return 1 value for the function instead of 2.
+    return (priority * combined_level)
+
+    '''
+    return (priority, combined_level)
+    '''
+
+# -- Core Pairing Logic --
 
 # Generate pairs avoiding repeats. Shuffle and pair each female with a male, and pair up the rest
 def pair_up(short_list, long_list):
+
+    #Track previous pairings to avoid repeats
+    previous_pairings = set()
+
     # Make a copy of short and long list
     copy_short = short_list[:]
     copy_long = long_list[:]
@@ -42,25 +82,6 @@ def pair_up(short_list, long_list):
 
     return pairs
 
-# Define sorting function
-def sorting_key(pair):
-    # Rank the pair based on gender
-    genders = tuple([pair[0].gender, pair[1].gender])
-    if "female" in genders and "male" in genders:
-        priority = 2 # Assign higher priorty as 1 to keep it consistent with the levels. The higher number is higher priority
-    else:
-        priority = 1
-    
-    # Rank the pair based on combined level
-    combined_level = pair[0].level + pair[1].level
-
-    #Attempt to return 1 value for the function instead of 2.
-    return (priority * combined_level)
-
-    '''
-    return (priority, combined_level)
-    '''
-
 # Generate matches with varied partners and opponents
 def generate_lineups(players, sets=3):
     # Split players by gender
@@ -78,7 +99,6 @@ def generate_lineups(players, sets=3):
 
         # Pair up the players
         pairs = pair_up(short, long)
-        print("Pairs are sorting are: {}".format(pairs))
         
         matches = []
         for i in range(0, len(pairs), 2):
@@ -91,7 +111,23 @@ def generate_lineups(players, sets=3):
     
     return lineups
 
-# Print the generated lineup sets (with names, gender, and level)
+# -- Debug and Validation Functions --
+
+# Flatten the nested structure for the lineup
+def iterative_flatten(nested):
+    while isinstance(nested, list) and len(nested) == 1:
+        nested = nested[0]  # Unpack single-element lists
+    return nested
+
+# Validate sorting_key function with flattened lineup
+def validate_sorting_key(lineup):
+    for i in lineup:
+        print("The set is".format(i))
+        
+        flattened = interative_flatten(i)
+        print(flattened)
+
+# Print the generated lineup (with names, gender, and level)
 def print_lineups(lineups):
     for set_num, lineup_set in enumerate(lineups, 1):
         print(f"\nSet {set_num}:")
@@ -108,3 +144,9 @@ def print_lineups_namesonly(lineups):
             team1_names = f"{team1[0].name} & {team1[1].name}"
             team2_names = f"{team2[0].name} & {team2[1].name}"
             print(f"Match {match_num}: {team1_names} vs {team2_names}")
+
+# -- Entry Point --
+if __name__ == "__main__":
+    results = generate_lineups(players, sets = 3)
+    results_formatted = print_lineups_namesonly(results)
+    print(results_formatted)

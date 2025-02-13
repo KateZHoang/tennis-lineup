@@ -143,7 +143,7 @@ if __name__ == "__main__":
     client = gspread.authorize(creds)
 
     # Access the Google Sheet tabs
-    player_sheet = client.open_by_key("1Z3jSqZv4cikdgrajeFmP5Dd1O9NOt_f1WWFkUCCkMOo").worksheet("Test")  
+    player_sheet = client.open_by_key("1pG6MNE5WRD9IikzX66HsNfme1DRZsMDVY0FUPnSnFtY").worksheet("Player_Info")  
 
     # Get player data
     players = GetPlayerList.get_players(player_sheet)

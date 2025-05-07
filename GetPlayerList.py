@@ -1,5 +1,12 @@
 import gspread
 from google.oauth2.service_account import Credentials
+import AuthenticateGoogle
+
+# Authenticate google 
+creds, client = AuthenticateGoogle.authenticate_google()
+
+# Access the Google Sheet tabs
+player_sheet = client.open_by_key("1pG6MNE5WRD9IikzX66HsNfme1DRZsMDVY0FUPnSnFtY").worksheet("Player_Info")  
 
 # Define player class
 class Player:
@@ -9,7 +16,7 @@ class Player:
         self.level = level
     
     def __repr__(self):
-        return f"Player({self.name}, {self.gender}, {self.level})"
+        return f"Player({self.name}, {self.gender}, {self.level})" 
 
     def __lt__(self, other):
         # Compare players primarily by name, alphabetically
@@ -17,6 +24,7 @@ class Player:
 
 # Create player list from Google Sheet
 def get_players(sheet):
+
     # Get data as a list of lists or dictionaries
     data = sheet.get_all_records()  # list of dictionaries
     rows_as_lists = [list(row.values()) for row in data]  # convert each row to list if needed
@@ -28,3 +36,8 @@ def get_players(sheet):
             player_list.append(player)
 
     return player_list
+
+if __name__ == "__main__":
+    # Get and print the player data
+    players = get_players(player_sheet)
+    print(f"The players are {[player.name for player in players]}")

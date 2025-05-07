@@ -23,5 +23,8 @@ def authenticate_google():
             "https://www.googleapis.com/auth/drive"
     ]
 
-    # return the parsed_json and scope to be used if needed
-    return parsed_json, scope
+    creds = Credentials.from_service_account_info(parsed_json, scopes=scope)
+    client = gspread.authorize(creds)
+
+    # return the creds and client to be used if needed
+    return creds, client

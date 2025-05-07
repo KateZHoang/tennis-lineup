@@ -8,9 +8,7 @@ import GetPlayerList
 from google.oauth2.service_account import Credentials
 
 # Authenticate google 
-parsed_json, scope = AuthenticateGoogle.authenticate_google()
-creds = Credentials.from_service_account_info(parsed_json, scopes=scope)
-client = gspread.authorize(creds)
+creds, client = AuthenticateGoogle.authenticate_google()
 
 # Access the Google Sheet tabs
 round_robin_sheet = client.open_by_key("1pG6MNE5WRD9IikzX66HsNfme1DRZsMDVY0FUPnSnFtY").worksheet("Lineup")  

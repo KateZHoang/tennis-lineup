@@ -22,19 +22,20 @@ def sorting_key(pair):
     combined_level = pair[0].level + pair[1].level
 
     #Attempt to return 1 value for the function instead of 2.
-    return (priority * combined_level)
+    #return (priority * combined_level)
 
-    '''
+    
     return (priority, combined_level)
-    '''
+    
 
 # -- Core Pairing Logic --
 
 # Generate pairs avoiding repeats. Shuffle and pair each female with a male, and pair up the rest
-def pair_up(short_list, long_list):
 
-    #Track previous pairings to avoid repeats
-    previous_pairings = set()
+#Track previous pairings to avoid repeats
+previous_pairings = set()
+
+def pair_up(short_list, long_list):
 
     # Make a copy of short and long list
     copy_short = short_list[:]
@@ -78,8 +79,12 @@ def generate_lineups(players, sets=3):
     females = [p for p in players if p.gender == 'Female']
 
     # Decide on the short and the long list
-    short = min(males, females, key=len)
-    long = max(males, females, key=len)
+    if len(males) != len(females):
+        short = min(males, females, key=len)
+        long = max(males, females, key=len)
+    else:
+        short = females
+        long = males
 
     # Ensure each player has different partners in each set and balanced match levels
     lineups = []
@@ -138,15 +143,14 @@ def print_lineups_namesonly(lineups):
 if __name__ == "__main__":
 
     # Authenticate google 
-    parsed_json, scope = AuthenticateGoogle.authenticate_google()
-    creds = Credentials.from_service_account_info(parsed_json, scopes=scope)
-    client = gspread.authorize(creds)
+    creds, client = AuthenticateGoogle.authenticate_google()
 
     # Access the Google Sheet tabs
     player_sheet = client.open_by_key("1pG6MNE5WRD9IikzX66HsNfme1DRZsMDVY0FUPnSnFtY").worksheet("Player_Info")  
 
     # Get player data
     players = GetPlayerList.get_players(player_sheet)
+    print(f"The players are {[player.name for player in players]}")
 
     # Generate lineup and print them out formatted
     results = generate_lineups(players, sets = 3)

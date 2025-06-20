@@ -40,4 +40,4 @@ def get_players(sheet):
 if __name__ == "__main__":
     # Get and print the player data
     players = get_players(player_sheet)
-    print(f"The players are {[player.name for player in players]}")
+    print(f"There are {len(players)} players. The players are: {[player.name for player in players]}")

@@ -28,3 +28,12 @@ def authenticate_google():
 
     # return the creds and client to be used if needed
     return creds, client
+
+if __name__ == "__main__":
+    print("Script started")
+
+    try:
+        creds, client = authenticate_google()
+        print("Google authentication succeeded.")
+    except Exception as e:
+        print(f"Authentication failed: {e}")

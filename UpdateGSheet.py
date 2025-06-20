@@ -44,4 +44,3 @@ lineups = MatchLineupsCreation.generate_lineups(players, sets = 3)
 data = reformat_lineup(lineups)
 print(f"Player data are: {data}")
 write_to_gsheet(data)
-

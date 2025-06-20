@@ -35,7 +35,8 @@ def sorting_key(pair):
 #Track previous pairings to avoid repeats
 previous_pairings = set()
 
-def pair_up(short_list, long_list):
+# Generate pairs for mix.
+def pair_up_mix(short_list, long_list):
 
     # Make a copy of short and long list
     copy_short = short_list[:]
@@ -65,7 +66,42 @@ def pair_up(short_list, long_list):
     # Generate pairs with the remaining from the long list
     if len(copy_long) > 1:
         mid = len(copy_long) // 2
-        pairs += pair_up(copy_long[:mid],copy_long[mid:])
+        pairs += pair_up_mix(copy_long[:mid],copy_long[mid:])
+
+    # Ensure teams have close USTA levels by pairing highest level pairs against each other
+    pairs.sort(key=sorting_key, reverse=True)
+
+    return pairs
+
+# Generate pairs for one gender.
+def pair_up_single_gender(players):
+
+    # Make a copy of the player list
+    copy_players = players[:]
+
+    # Generate pairs starting with the short list
+    pairs = []
+
+    while copy_players:
+        selected_player1 = random.choice(copy_players)
+        selected_player2 = random.choice(copy_players)
+
+        while selected_player2 == selected_player1:
+            selected_player2 = random.choice(copy_players)
+ 
+        # Create the pair as a sorted tuple
+        temp_pair = tuple(sorted((selected_player1, selected_player2)))
+
+        # Only add the pairs if not already exist
+        if temp_pair in previous_pairings:
+            continue
+
+        pairs.append(temp_pair)
+        previous_pairings.add(temp_pair)
+        
+        # Remove the players from their respective lists
+        copy_players.remove(selected_player1)
+        copy_players.remove(selected_player2)
 
     # Ensure teams have close USTA levels by pairing highest level pairs against each other
     pairs.sort(key=sorting_key, reverse=True)
@@ -74,17 +110,20 @@ def pair_up(short_list, long_list):
 
 # Generate matches with varied partners and opponents
 def generate_lineups(players, sets=3):
-    # Split players by gender
+    
+    # Split males and females from player list
     males = [p for p in players if p.gender == 'Male']
     females = [p for p in players if p.gender == 'Female']
 
-    # Decide on the short and the long list
-    if len(males) != len(females):
-        short = min(males, females, key=len)
-        long = max(males, females, key=len)
-    else:
-        short = females
-        long = males
+    # Split players by gender if there is more than one gender
+    if males and females:
+        # Decide on the short and the long list
+        if len(males) != len(females):
+            short = min(males, females, key=len)
+            long = max(males, females, key=len)
+        else:
+            short = females
+            long = males
 
     # Ensure each player has different partners in each set and balanced match levels
     lineups = []
@@ -92,8 +131,11 @@ def generate_lineups(players, sets=3):
         lineup_set = []
 
         # Pair up the players
-        pairs = pair_up(short, long)
-        
+        if "short" in locals() and short and "long" in locals() and long:
+            pairs = pair_up_mix(short, long)
+        else:
+            pairs = pair_up_single_gender(players)
+
         matches = []
         for i in range(0, len(pairs), 2):
             a_match = tuple(sorted([pairs[i], pairs[i + 1]]))
@@ -150,7 +192,7 @@ if __name__ == "__main__":
 
     # Get player data
     players = GetPlayerList.get_players(player_sheet)
-    print(f"The players are {[player.name for player in players]}")
+    print(f"There are {len(players)} players. The players are: {[player.name for player in players]}")
 
     # Generate lineup and print them out formatted
     results = generate_lineups(players, sets = 3)

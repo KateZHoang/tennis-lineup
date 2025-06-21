@@ -34,9 +34,6 @@ def write_to_gsheet(data):
         round_robin_sheet.update(values = [[value]], range_name = cell)
         time.sleep(1) 
 
-# Get player data
-players = GetPlayerList.get_players(player_sheet)
-
 # Get lineup
 lineups = MatchLineupsCreation.generate_lineups(players, sets = 3)
 

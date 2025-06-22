@@ -15,12 +15,13 @@ def test_get_player_list():
     players = get_player_data()
     assert len(players) % 4 == 0
 
-# Test 2: Ensure each player has a non-empty "gender"
+# Test 2: Ensure each player has a "gender"
 def test_players_have_gender():
     players = get_player_data()
     for player in players:
         assert hasattr(player, 'gender'), f"Missing gender attribute on {player}"
         assert player.gender is not None and player.gender != '', f"Empty gender for player: {player.name}"
+        assert player.gender in ['Female', 'Male','female', 'male'], f"Invalid gender value for player {player.name}: {player.gender}"
 
 # Test 3: Every player has a non-empty 'level'
 def test_players_have_level():

@@ -5,14 +5,26 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from GetPlayerList import get_players
 import AuthenticateGoogle
 
-# Test GetPlayerList.py. Ensure the number of generated players in the lineup is a multiple of 4.
-def test_get_player_list():
-
-    # Authenticate google 
+def get_player_data(): 
     creds, client = AuthenticateGoogle.authenticate_google()
-
-    # Access the Google Sheet tabs
     player_sheet = client.open_by_key("1pG6MNE5WRD9IikzX66HsNfme1DRZsMDVY0FUPnSnFtY").worksheet("Player_Info")
+    return get_players(player_sheet)
 
-    players = get_players(player_sheet)
+# Test 1: Ensure the number of generated players in the lineup is a multiple of 4.
+def test_get_player_list():
+    players = get_player_data()
     assert len(players) % 4 == 0
+
+# Test 2: Ensure each player has a non-empty "gender"
+def test_players_have_gender():
+    players = get_player_data()
+    for player in players:
+        assert hasattr(player, 'gender'), f"Missing gender attribute on {player}"
+        assert player.gender is not None and player.gender != '', f"Empty gender for player: {player.name}"
+
+# Test 3: Every player has a non-empty 'level'
+def test_players_have_level():
+    players = get_player_data()
+    for player in players:
+        assert hasattr(player, 'level'), f"Missing level attribute on {player}"
+        assert player.level is not None and player.level != '', f"Empty level for player: {player.name}"

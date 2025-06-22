@@ -29,3 +29,7 @@ def test_players_have_level():
     for player in players:
         assert hasattr(player, 'level'), f"Missing level attribute on {player}"
         assert player.level is not None and player.level != '', f"Empty level for player: {player.name}"
+        try:
+            float(player.level)
+        except ValueError:
+            assert False, f"Non-numeric level value for player: {player.name} ({player.level})"

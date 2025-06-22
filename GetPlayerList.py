@@ -2,12 +2,6 @@ import gspread
 from google.oauth2.service_account import Credentials
 import AuthenticateGoogle
 
-# Authenticate google 
-creds, client = AuthenticateGoogle.authenticate_google()
-
-# Access the Google Sheet tabs
-player_sheet = client.open_by_key("1pG6MNE5WRD9IikzX66HsNfme1DRZsMDVY0FUPnSnFtY").worksheet("Player_Info")  
-
 # Define player class
 class Player:
     def __init__(self, name, gender, level):
@@ -38,6 +32,13 @@ def get_players(sheet):
     return player_list
 
 if __name__ == "__main__":
+
+    # Authenticate google 
+    creds, client = AuthenticateGoogle.authenticate_google()
+
+    # Access the Google Sheet tabs
+    player_sheet = client.open_by_key("1pG6MNE5WRD9IikzX66HsNfme1DRZsMDVY0FUPnSnFtY").worksheet("Player_Info")  
+
     # Get and print the player data
     players = get_players(player_sheet)
     print(f"There are {len(players)} players. The players are: {[player.name for player in players]}")

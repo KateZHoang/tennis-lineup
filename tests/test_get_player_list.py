@@ -33,3 +33,12 @@ def test_players_have_level():
             float(player.level)
         except ValueError:
             assert False, f"Non-numeric level value for player: {player.name} ({player.level})"
+
+# Test 4: Ensure every player's name is unique
+def test_player_name():
+    players = get_player_data()
+    seen = set()
+    for player in players:
+        assert player.name not in seen, f"Duplicate name: {player.name}"
+        seen.add(player.name)
+    

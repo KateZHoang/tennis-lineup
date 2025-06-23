@@ -2,13 +2,13 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from GetPlayerList import get_players
-import AuthenticateGoogle
+from get_player_list import get_players
+from authenticate_google import authenticate_google
 from mock_player_data import get_mock_players
 
 # Get real player data from google sheet
 def get_real_players(): 
-    creds, client = AuthenticateGoogle.authenticate_google()
+    creds, client = authenticate_google()
     player_sheet = client.open_by_key("1pG6MNE5WRD9IikzX66HsNfme1DRZsMDVY0FUPnSnFtY").worksheet("Player_Info")
     return get_players(player_sheet)
 

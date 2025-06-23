@@ -13,7 +13,7 @@ def get_real_players():
     return get_players(player_sheet)
 
 # Test 1: Ensure the number of generated players in the lineup is a multiple of 4.
-def test_get_player_list(player_data):
+def test_player_number_is_accurate(player_data):
     assert len(player_data) % 4 == 0
 
 # Test 2: Ensure each player has a "gender"
@@ -34,7 +34,7 @@ def test_players_have_level(player_data):
             assert False, f"Non-numeric level value for player: {player.name} ({player.level})"
 
 # Test 4: Ensure every player's name is unique
-def test_player_name(player_data):
+def test_players_not_duplicate(player_data):
     seen = set()
     for player in player_data:
         assert player.name not in seen, f"Duplicate name: {player.name}"

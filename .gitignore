@@ -3,4 +3,5 @@ encoded-json.txt
 .env
 .DS_Store
 __pycache__/
+.pytest_cache
 /reports/

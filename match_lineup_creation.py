@@ -2,10 +2,10 @@ import os
 import time
 import random
 from itertools import combinations
-import AuthenticateGoogle
+from authenticate_google import authenticate_google
 from google.oauth2.service_account import Credentials
 import gspread
-import GetPlayerList
+from get_player_list import get_players
 
 # -- Utility Functions --
 
@@ -185,13 +185,13 @@ def print_lineups_namesonly(lineups):
 if __name__ == "__main__":
 
     # Authenticate google 
-    creds, client = AuthenticateGoogle.authenticate_google()
+    creds, client = authenticate_google()
 
     # Access the Google Sheet tabs
     player_sheet = client.open_by_key("1pG6MNE5WRD9IikzX66HsNfme1DRZsMDVY0FUPnSnFtY").worksheet("Player_Info")  
 
     # Get player data
-    players = GetPlayerList.get_players(player_sheet)
+    players = get_players(player_sheet)
     print(f"There are {len(players)} players. The players are: {[player.name for player in players]}")
 
     # Generate lineup and print them out formatted

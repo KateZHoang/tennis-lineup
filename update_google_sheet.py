@@ -2,20 +2,20 @@ import os
 import json 
 import gspread
 import time
-import AuthenticateGoogle
-import MatchLineupsCreation
-import GetPlayerList
+from authenticate_google import authenticate_google
+import match_lineup_creation
+import get_player_list
 from google.oauth2.service_account import Credentials
 
 # Authenticate google 
-creds, client = AuthenticateGoogle.authenticate_google()
+creds, client = authenticate_google()
 
 # Access the Google Sheet tabs
 round_robin_sheet = client.open_by_key("1pG6MNE5WRD9IikzX66HsNfme1DRZsMDVY0FUPnSnFtY").worksheet("Lineup")  
 player_sheet = client.open_by_key("1pG6MNE5WRD9IikzX66HsNfme1DRZsMDVY0FUPnSnFtY").worksheet("Player_Info")  
 
 # Get player data
-players = GetPlayerList.get_players(player_sheet)
+players = get_player_list.get_players(player_sheet)
 
 # Re-format lineup data
 def reformat_lineup(lineups):
@@ -35,7 +35,7 @@ def write_to_gsheet(data):
         time.sleep(1) 
 
 # Get lineup
-lineups = MatchLineupsCreation.generate_lineups(players, sets = 3)
+lineups = match_lineup_creation.generate_lineups(players, sets = 3)
 
 # Write the data to Gsheet
 data = reformat_lineup(lineups)

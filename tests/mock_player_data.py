@@ -1,4 +1,4 @@
-from GetPlayerList import Player
+from get_player_list import Player
 
 # Create a set of mock player data to test against test scripts
 def mock_valid_players():

@@ -33,10 +33,7 @@ def get_players(sheet):
 
 if __name__ == "__main__":
 
-    # Authenticate google 
     creds, client = authenticate_google.authenticate_google()
-
-    # Access the Google Sheet tabs
     player_sheet = client.open_by_key("1pG6MNE5WRD9IikzX66HsNfme1DRZsMDVY0FUPnSnFtY").worksheet("Player_Info")  
 
     # Get and print the player data

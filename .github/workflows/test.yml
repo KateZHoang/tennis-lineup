@@ -14,7 +14,7 @@ on:
 
 jobs:
   mock-tests:
-    name: Tun Tests (Mock Data)
+    name: Run Tests (Mock Data)
     runs-on: ubuntu-latest
 
     steps:
@@ -32,7 +32,7 @@ jobs:
           pip install -r requirements.txt || true
           pip install pytest gspread python-dotenv pytest-html
 
-     - name: Run mock scenario: valid
+      - name: Run mock scenario: valid
         run: |
           mkdir -p reports
           pytest tests/ --data-source=mock --mock-scenario=valid --html=reports/mock_valid.html

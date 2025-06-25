@@ -13,7 +13,7 @@ on:
       - '**/*.py'
 
 jobs:
-  mock-tests:
+  mock_tests:
     name: Run Tests (Mock Data)
     runs-on: ubuntu-latest
 
@@ -77,7 +77,7 @@ jobs:
           path: reports/mock_duplicate_names.html
           retention-days: 7
 
-  real-tests:
+  real_tests:
     name: Run Tests (Real Data)
     needs: mock-tests   #Only runs if mock tests succeed
     runs-on: ubuntu-latest

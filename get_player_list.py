@@ -19,7 +19,7 @@ class Player:
 # Create player list from Google Sheet
 def get_players(sheet):
 
-    # Get data as a list or dictionaries
+    # Get player info as a list or dictionaries
     data = sheet.get_all_records()  # list of dictionaries
     rows_as_lists = [list(row.values()) for row in data]  # convert each row to list if needed
 

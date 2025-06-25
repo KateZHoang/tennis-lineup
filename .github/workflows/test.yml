@@ -80,7 +80,7 @@ jobs:
 
   real_tests:
     name: Run Tests (Real Data)
-    needs: mock-tests   #Only runs if mock tests succeed
+    needs: mock_tests   #Only runs if mock tests succeed
     runs-on: ubuntu-latest
 
     steps:

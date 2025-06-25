@@ -1,0 +1,37 @@
+name: Run Tennis Lineup Scripts
+
+on:
+  schedule:
+    # Schedule: Run every Wednesday at 12 PM PDT (7:00 PM UTC)
+    - cron: "0 19 * * 3"
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  run-python-scripts:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Check out the repository
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+      with:
+        ref: master
+
+    # Step 2: Set up Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12' # Specify the desired Python version
+
+    # Step 3: Install dependencies
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    # Step 4: Run UpdateGSheet Script
+    - name: Run UpdateGSheet.py
+      env:
+        SERVICE_ACCOUNT_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+      run: |
+        python UpdateGSheet.py

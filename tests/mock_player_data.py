@@ -10,7 +10,7 @@ def mock_valid_players():
         Player("Ethan", "Male", "3.5"),
         Player("Frank", "Male", "4.0"),
         Player("Grace", "Female", "3.0"),
-        Player("Henry", "Male", "3.0"),
+        Player("Harry", "Male", "3.0"),
     ]
 
 def mock_missing_gender():

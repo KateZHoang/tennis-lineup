@@ -33,11 +33,9 @@ jobs:
           pip install -r requirements.txt || true
           pip install pytest gspread python-dotenv pytest-html
 
-      - name: Add secret
+      - name: Run real tests
         env:
           SERVICE_ACCOUNT_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY }}
-
-      - name: Run real tests
         run: |
           mkdir -p reports
           pytest tests/ --data-source=real --html=reports/test_with_real_data.html

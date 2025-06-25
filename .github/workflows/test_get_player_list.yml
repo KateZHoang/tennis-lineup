@@ -1,4 +1,4 @@
-name: Validate Player List Logic (Mock → Real)
+name: Validate Player List Logic (Mock Data)
 
 on:
   push:
@@ -37,46 +37,44 @@ jobs:
           pip install -r requirements.txt || true
           pip install pytest gspread python-dotenv pytest-html
 
-      - name: Run mock tests
+      - name: Run mock tests valid
         run: |
           mkdir -p reports
-          pytest tests/ --data-source=mock --mock-scenario=valid --html=reports/mock_get_player_list.html
+          pytest tests/ --data-source=mock --mock-scenario=valid --html=reports/mock_valid.html
 
-      - name: Upload mock report
+      - name: Upload mock valid report
         uses: actions/upload-artifact@v4
         with:
-          name: mock-get-player-list-report
-          path: reports/mock_get_player_list.html
+          name: mock-valid-player-list-report
+          path: reports/mock_valid.html
           retention-days: 7
-
-  real_tests:
-    name: Run Real Tests for get_player_list.py
-    needs: mock_tests
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.12'
-
-      - name: Install dependencies
+      
+      - name: Run mock scenario missing_gender
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt || true
-          pip install pytest gspread python-dotenv pytest-html
+          pytest tests/ --data-source=mock --mock-scenario=missing_gender --html=reports/mock_missing_gender.html
 
-      - name: Run real tests
-        run: |
-          mkdir -p reports
-          pytest tests/ --data-source=real --html=reports/real_get_player_list.html
-
-      - name: Upload real report
+      - name: Upload mock missing_gender report
         uses: actions/upload-artifact@v4
         with:
-          name: real-get-player-list-report
-          path: reports/real_get_player_list.html
-          retention-days: 7
+          name: mock-missing-gender-report
+          path: reports/mock_missing_gender.html
+
+      - name: Run mock scenario invalid_level
+        run: |
+          pytest tests/ --data-source=mock --mock-scenario=invalid_level --html=reports/mock_invalid_level.html
+
+      - name: Upload mock invalid_level report
+        uses: actions/upload-artifact@v4
+        with:
+          name: mock-invalid-level-report
+          path: reports/mock_invalid_level.html
+
+      - name: Run mock scenario duplicate names
+        run: |
+          pytest tests/ --data-source=mock --mock-scenario=duplicate_names --html=reports/duplicate_names.html
+
+      - name: Upload mock duplicate_names report
+        uses: actions/upload-artifact@v4
+        with:
+          name: mock-duplicate-names
+          path: reports/duplicate_names.html

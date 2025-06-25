@@ -1,4 +1,4 @@
-name: Run Python Tests
+name: Run Python Tests (Mock -> Real)
 
 on:
   push:
@@ -76,7 +76,7 @@ jobs:
 
   real-tests:
     name: Run Tests (Real Data)
-    needs: test-mock   #Only runs if mock tests succeed
+    needs: mock-tests   #Only runs if mock tests succeed
     runs-on: ubuntu-latest
 
     steps:

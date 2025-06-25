@@ -1,0 +1,78 @@
+name: Validate Player List Logic (Mock → Real)
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - get_player_list.py
+  pull_request:
+    branches:
+      - master
+    paths:
+      - get_player_list.py
+  workflow_dispatch:
+
+jobs:
+  mock_tests:
+    name: Run Mock Tests for get_player_list.py
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt || true
+          pip install pytest gspread python-dotenv pytest-html
+
+      - name: Run mock tests
+        run: |
+          mkdir -p reports
+          pytest tests/ --data-source=mock --mock-scenario=valid --html=reports/mock_get_player_list.html
+
+      - name: Upload mock report
+        uses: actions/upload-artifact@v4
+        with:
+          name: mock-get-player-list-report
+          path: reports/mock_get_player_list.html
+          retention-days: 7
+
+  real_tests:
+    name: Run Real Tests for get_player_list.py
+    needs: mock_tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt || true
+          pip install pytest gspread python-dotenv pytest-html
+
+      - name: Run real tests
+        run: |
+          mkdir -p reports
+          pytest tests/ --data-source=real --html=reports/real_get_player_list.html
+
+      - name: Upload real report
+        uses: actions/upload-artifact@v4
+        with:
+          name: real-get-player-list-report
+          path: reports/real_get_player_list.html
+          retention-days: 7

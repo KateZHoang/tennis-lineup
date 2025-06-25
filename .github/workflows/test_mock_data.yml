@@ -21,6 +21,8 @@ jobs:
   mock_tests:
     name: Run Mock Tests for get_player_list.py
     runs-on: ubuntu-latest
+    env:
+      SERVICE_ACCOUNT_KEY: ${{ secrets.SERVICE_ACCOUNT_KEY }}
 
     steps:
       - name: Checkout code

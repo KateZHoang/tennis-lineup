@@ -36,6 +36,5 @@ if __name__ == "__main__":
     creds, client = authenticate_google.authenticate_google()
     player_sheet = client.open_by_key("1pG6MNE5WRD9IikzX66HsNfme1DRZsMDVY0FUPnSnFtY").worksheet("Player_Info")  
 
-    # Get and print the player data
     players = get_players(player_sheet)
     print(f"There are {len(players)} players. The players are: {[player.name for player in players]}")

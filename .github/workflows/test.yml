@@ -32,7 +32,7 @@ jobs:
           pip install -r requirements.txt || true
           pip install pytest gspread python-dotenv pytest-html
 
-      - name: Run mock scenario: valid
+      - name: Run mock scenario valid
         run: |
           mkdir -p reports
           pytest tests/ --data-source=mock --mock-scenario=valid --html=reports/mock_valid.html
@@ -44,7 +44,7 @@ jobs:
           path: reports/mock_valid.html
           retention-days: 7
 
-      - name: Run mock scenario: missing_gender
+      - name: Run mock scenario missing_gender
         run: |
           pytest tests/ --data-source=mock --mock-scenario=missing_gender --html=reports/mock_missing_gender.html
 
@@ -55,7 +55,7 @@ jobs:
           path: reports/mock_missing_gender.html
           retention-days: 7
 
-      - name: Run mock scenario: invalid_level
+      - name: Run mock scenario invalid_level
         run: |
           pytest tests/ --data-source=mock --mock-scenario=invalid_level --html=reports/mock_invalid_level.html
 
@@ -66,7 +66,7 @@ jobs:
           path: reports/mock_invalid_level.html
           retention-days: 7
 
-      - name: Run mock scenario: duplicate_names
+      - name: Run mock scenario duplicate_names
         run: |
           pytest tests/ --data-source=mock --mock-scenario=duplicate_names --html=reports/mock_duplicate_names.html
 

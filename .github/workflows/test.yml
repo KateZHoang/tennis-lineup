@@ -2,12 +2,15 @@ name: Run Python Tests (Mock -> Real)
 
 on:
   push:
-    branches: [master]
+    branches:
+      - master
     paths:
-      - '**.py'
+      - '**/*.py'
   pull_request:
+    branches:
+      - master
     paths:
-      - '**.py'
+      - '**/*.py'
 
 jobs:
   mock-tests:

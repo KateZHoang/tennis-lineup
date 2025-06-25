@@ -20,8 +20,8 @@ class Player:
 def get_players(sheet):
 
     # Get player info as a list or dictionaries
-    data = sheet.get_all_records()  # list of dictionaries
-    rows_as_lists = [list(row.values()) for row in data]  # convert each row to list if needed
+    data = sheet.get_all_records()
+    rows_as_lists = [list(row.values()) for row in data]  # convert each row to list
 
     player_list = []
     for i in rows_as_lists:

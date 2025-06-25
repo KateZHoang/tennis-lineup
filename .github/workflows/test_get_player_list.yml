@@ -6,11 +6,15 @@ on:
       - master
     paths:
       - get_player_list.py
+      - tests/mock_player_data.py
+      - tests/conftest.py
   pull_request:
     branches:
       - master
     paths:
       - get_player_list.py
+      - tests/mock_player_data.py
+      - tests/conftest.py
   workflow_dispatch:
 
 jobs:

@@ -5,3 +5,4 @@ encoded-json.txt
 __pycache__/
 .pytest_cache
 /reports/
+tempCodeRunnerFile.*
